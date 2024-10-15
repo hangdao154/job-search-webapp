@@ -21,14 +21,7 @@ const JOB_PER_PAGE = 20;
 // ];
 // saveData(userList);
 
-let userList = [];
-try {
-    userList = JSON.parse(await readFile("data.json", "utf8"));
-    console.log(userList);
-} catch (err) {
-    console.error(err);
-}
-
+let user;
 let loggedInUserID = null;  // Store the logged in user's ID
 let temporaryList = [];     // Store search results page for job access
 
@@ -107,13 +100,13 @@ app.get("/signup", (req, res) => {
     res.render("signup.ejs");
 })
 
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
     if (req.body.username === "" || req.body.password === "") {
         res.render("signup.ejs", { message: "Cannot leave username or password empty. Type again."})
     }
 
     let matched = false;
-    userList.forEach(user => {
+    (JSON.parse(await readFile("data.json", "utf8"))).forEach(user => {
         if (req.body.username === user.username) {  // Check if username already exists
             matched = true;
         }
@@ -123,15 +116,12 @@ app.post("/signup", (req, res) => {
         res.render("signup.ejs", { message: "Username already exists. Type again." });
     } else {
         // Add new user
-        userList.push({
-            id: userList.length,
+        saveData({ 
             username: req.body.username,
             password: req.body.password,
             profile: { name: "User", pic: "images/profilePics/pfp.jpg", location: "Not given.", graduation: "Not given"},
-            interests: []
-        })
-
-        saveData(userList);     // Update data file      
+            interests: [] 
+        });   
 
         res.redirect("/login"); // Go back to login page
     }
@@ -143,16 +133,20 @@ app.get("/login" , (req, res) => {
     res.render("login.ejs");
 })
 
-app.post("/login", (req, res) => {
-    let found = false;
-    userList.forEach(user => {
-        if (user.username === req.body.username && user.password === req.body.password) {
-            found = true;
-            loggedInUserID = user.id;
-        }
-    });
+app.post("/login", async (req, res) => {
+    try {   // Load user data
+        let found = false;
+        (JSON.parse(await readFile("data.json", "utf8"))).forEach(u => {
+            if (u.username === req.body.username && u.password === req.body.password) {
+                found = true;
+                user = u;
+            }
+        })
+    } catch (err) {
+        console.error(err);
+    }
 
-    if (loggedInUserID === null) {
+    if (!user) {
         // Wrong login info
         console.log("Wrong login info. Direct back to Login page.");
         res.render("login.ejs", { loginData: false });
@@ -163,7 +157,7 @@ app.post("/login", (req, res) => {
 })
 
 app.get("/logout", (req, res) => {
-    loggedInUserID = null;
+    user = null;
     res.redirect("/");
 })
 
@@ -173,51 +167,47 @@ app.get("/logout", (req, res) => {
 
 /* VIEW PROFILE */
 app.get("/profile", (req, res) => {
-    if (loggedInUserID === null) {  // NOT logged in
+    if (!user) {  // NOT logged in
         console.log("Not logged in. Redirect to Login page.");
         res.redirect("/login");
     } else {
-        temporaryList = userList[loggedInUserID].interests;
+        temporaryList = user.interests;
 
         if (Object.keys(req.query).length === 0) {
-            res.render("profile.ejs", { user: userList[loggedInUserID] });
+            res.render("profile.ejs", { user: user });
         } else {
-            res.render("profile.ejs", { user: userList[loggedInUserID], selectedJobID: req.query.item });
+            res.render("profile.ejs", { user: user, selectedJobID: req.query.item });
         }
     }
 })
 
 /* UPDATE PROFILE */
 app.get("/edit-profile", (req, res) => {
-    if (loggedInUserID === null) {  // NOT logged in
+    if (!user) {  // NOT logged in
         console.log("Not logged in. Redirect to Login page.");
         res.redirect("/login");
     } else {
-        res.render("edit-profile.ejs", { user: userList[loggedInUserID] });
+        return res.render("edit-profile.ejs", { user: user });
     }
 })
 
 app.post("/edit-profile", upload.single("profile-pic"), (req, res) => {
-    if (loggedInUserID === null) {  // NOT logged in
+    if (!user) {  // NOT logged in
         console.log("Not logged in. Redirect to Login page.");
         res.redirect("/login");
     } else {
+        if (req.file) { user.profile.pic = `images/profilePics/uploads/${req.file.filename}`; }
         Object.keys(req.body).forEach((key) => {
             if (req.body[key].length === 0) {
-                res.render("edit-profile.ejs", { user: userList[loggedInUserID], message: "Cannot leave any information empty!" });
+                return res.render("edit-profile.ejs", { user: user, message: "Cannot leave any information empty!" });
+            } else {
+                user.profile[key] = req.body[key];
             }
         })
-        
-        // Update userList
-        if (req.file) { userList[loggedInUserID].profile.pic = `images/profilePics/uploads/${req.file.filename}`; }
-        userList[loggedInUserID].profile.name = req.body.name;
-        userList[loggedInUserID].profile.bio = req.body.bio;
-        userList[loggedInUserID].profile.location = req.body.location;
-        userList[loggedInUserID].profile.graduation = req.body.graduation;
 
         // Update data file
-        saveData(userList);
-        res.render("profile.ejs", { message: "Profile edited successfully!", user: userList[loggedInUserID] });
+        saveData(user);
+        res.render("profile.ejs", { message: "Profile edited successfully!", user: user });
     }
 })
 
@@ -225,7 +215,7 @@ app.post("/edit-profile", upload.single("profile-pic"), (req, res) => {
 
 /* SAVE SELECTED JOB TO INTERESTS */
 app.get("/save-job", (req, res) => {
-    if (loggedInUserID === null) {  // NOT logged in
+    if (!user) {  // NOT logged in
         console.log("Not logged in. Redirect to Login page.");
         res.redirect("/login");
     } else {
@@ -236,7 +226,7 @@ app.get("/save-job", (req, res) => {
         const selectedIndex = req.query.item;   // Job being selected and wanted to save
         
         // The url param is the index of the job being selected in the temporary list being fetched from each search page
-        userList[loggedInUserID].interests.push(temporaryList[selectedIndex]);
+        user.interests.push(temporaryList[selectedIndex]);
         console.log("Added to interest.")
 
         res.redirect(`/search?area=${jobArea}&title=${jobTitle.join("%")}&location=${jobLocation.join("%")}&page=${pageNumber}&item=${selectedIndex}`);
@@ -245,12 +235,12 @@ app.get("/save-job", (req, res) => {
 
 /* REMOVE JOB FROM INTERESTS */
 app.get("/remove-job", (req, res) => {
-    if (loggedInUserID === null) {  // NOT logged in
+    if (!user) {  // NOT logged in
         console.log("Not logged in. Redirect to Login page.");
         res.redirect("/login");
     } else {
         if (req.query.index) {
-            userList[loggedInUserID].interests.splice(req.query.index, 1);
+            user.interests.splice(req.query.index, 1);
             console.log("Removed successfully.")
         } else {
             console.error("Index not found.");
@@ -267,10 +257,22 @@ app.listen(port, () => {
 })
 
 /*========================== FILE HANDLING ==========================*/
-async function saveData(content) {
+async function saveData(user) {
     try {
-        await writeFile("data.json", JSON.stringify(content), "utf8");
-        console.log("The data was saved!")
+        const users = JSON.parse(await readFile("data.json", "utf8"));
+        if (users.includes(user)) {
+            users[user.id] = user;
+        } else {
+            user.id = users.length;
+            users.push(user);
+        }
+
+        try {
+            await writeFile("data.json", JSON.stringify(users), "utf8");
+            console.log("The data was saved!")
+        } catch (err) {
+            console.error(err);
+        }
     } catch (err) {
         console.error(err);
     }
