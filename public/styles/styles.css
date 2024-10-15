@@ -358,3 +358,162 @@ div.location img, div.graduation img {
     margin-left: 5%;
     margin-top: -5%;
 }
+
+@media (max-width: 1280px) {
+    p, .btn-content {
+        font-size: 24px;
+    }
+
+    .submit-btn {
+        font-size: 24px;
+        min-width: 180px;
+    }
+
+    .home-footer > footer {
+        position: relative;
+        margin-left: 5%;
+        margin-top: -7%;
+    }
+
+    footer > p {
+        font-size: 10pt;
+    }
+}
+
+@media (max-width: 1024px) {
+    p, .btn-content {
+        font-size: 18px;
+    }
+
+    .submit-btn {
+        font-size: 18px;
+        min-width: 140px;
+    }
+
+    .job-item > * {
+        font-size: 18px;
+    }
+
+    .right p {
+        font-size: 18px;
+    }
+
+    .right h1 {
+        font-size: 36px;
+    }
+
+    .btn-row {
+        gap: 10px;
+    }
+
+    .input-container {
+        column-gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100vw;
+    }
+
+    header ul {
+        justify-content: center;
+        gap: 45px;
+    }
+
+    .home-main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .slider-container {
+        order: -1;
+        height: 100%;
+        width: 100%;
+        margin-top: 120px;
+    }
+
+    .home-main > .input-container {
+        height: 50%;
+        width: 100%;
+        margin-top: 60px;
+    }
+
+    main.split-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    main.split-container > * {
+        width: 100%;
+    }
+
+    .job-results, .interests-container {
+        max-height: 20%;
+        margin-bottom: 20px;
+    }
+
+    .job-view, .right {
+        min-height: 80%;
+    }
+
+    .job-results .job-list {
+        max-height: 90%;
+        display: flex;
+        column-gap: 10px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    .job-results .page-number {
+        min-height: 10%;
+    }
+
+    .job-list > a {
+        min-width: 50%;
+        min-height: 100%;
+    }
+
+    .job-list .job-item {
+        box-sizing: border-box;
+        height: 100%;
+    }
+
+    .job-item > * {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .home-footer {
+        padding-top: 30px;
+        font-size: 10pt;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-footer > footer {
+        margin: 0;
+    }
+}
+
+@media (max-width: 684px) {
+    .input-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    .input-container > * {
+        min-width: 100%;
+    }
+
+
+}
