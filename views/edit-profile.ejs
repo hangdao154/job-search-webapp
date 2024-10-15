@@ -1,0 +1,45 @@
+<%- include("partials/header.ejs") %>
+
+
+<form class="input-container edit-page" action="/edit-profile" method="POST" enctype="multipart/form-data">
+    <% if (locals.message) { %>
+        <p class="profile-message" style="color: red; margin-left: 5%"><%= message %></p>
+    <% } %>
+    <h1 class="section-title">Edit Profile</h1>
+    <img src=<%= user.profile.pic %>>
+    <input id="file-input" type="file" name="profile-pic">
+    <label for="name">Name: 
+        <input class="input-field" name="name" type="text" value="<%= user.profile.name %>" placeholder="Enter name">
+    </label>
+    <label for="bio">Bio: 
+        <input class="input-field" name="bio" type="text" value="<%= user.profile.bio %>" placeholder="Enter biography">
+    </label>
+    <label for="location">Location: 
+        <input class="input-field" name="location" type="text" value="<%= user.profile.location %>" placeholder="Enter location">
+    </label>
+
+    <label for="graduation">Graduation: 
+        <input class="input-field" name="graduation" type="text" value="<%= user.profile.graduation %>" placeholder="Enter graduation info">
+    </label>
+
+    <div class="submit-btn">
+        <input class="btn-content" type="submit" value="Submit">
+    </div>
+    
+</form>
+
+<section class="footer-section">
+    <%- include("partials/footer.ejs") %>
+</section>
+
+<script>
+    const image = document.querySelector("img"), inputImg = document.querySelector("#file-input") ;
+
+    // Listen to the change in the "Choose File" button
+    inputImg.addEventListener("change", () => {
+        // Change the image source to uploaded file's link
+        image.src = URL.createObjectURL(inputImg.files[0]);
+        console.log(inputImg.files[0]);
+    });
+
+</script>

@@ -1,0 +1,360 @@
+* {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    padding: 0;
+}
+
+body {
+    margin: 0 auto;
+    padding: 0;
+    height: 100vh;
+    font-size: 20pt;
+}
+  
+header {
+      position: absolute;
+      top: 5%;
+      left: 5%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+    
+    
+.navbar > ul {
+    margin: 0;
+    display: flex;
+    gap: 70px;
+    align-items: center;
+    list-style: none;
+    font-weight: 600;
+}
+
+
+.navbar > ul a {
+    font-size: 22pt;
+}
+
+.navbar > ul a:hover {
+    color: #AD8961;
+    transition: ease-in-out 300ms; 
+}
+
+main {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ================ SEARCH BAR ================ */
+.input-container {
+    margin: 150px 5% 2.5% 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+}
+
+.input-container > * {
+    flex-grow: 1;
+}
+
+.area {
+    flex-grow: 0.8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.selector {
+    border-width: 0;
+    flex-grow: 1;
+    height: 52px;
+    font-size: 16pt;
+    text-align: center;
+}
+
+.input-container .input-field {
+    box-sizing: border-box;
+    height: 52px;
+    width: 100%;
+    min-width: 130px;
+    padding: 0 15px;
+    border-width: 0;
+    border-radius: 8pt;
+    background-color: #E5ECEA;
+    font-size: 16pt;
+}
+
+.btn-row {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.submit-btn {
+    min-width: 230px;
+    max-width: 30%;
+    height: 52px;
+    background-color: #04406D;
+    border-radius: 10cap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 22pt;
+    font-weight: 600;
+}
+
+.submit-btn:hover {
+    background-color: #90D9E5;
+    transition: ease-in-out 300ms;
+}
+
+/*For contents inside div buttons*/
+.btn-content {
+    all: unset;
+    cursor: pointer;
+    color: white;
+    font-size: 22pt;
+    font-weight: 600;
+}
+
+.home-main .input-container {
+    margin-top: 0;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.home-main .input-container > * {
+    width: 60%;
+}
+
+
+
+/* ================ HERO SLIDESHOW ================ */
+
+.slider-container {
+    height: 100%;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    animation: slide 16s infinite;
+    -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
+	scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+@keyframes slide {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(0); }
+    30% { transform: translateX(-100%); }
+    50% { transform: translateX(-100%); }
+    55% { transform: translateX(-200%); }
+    75% { transform: translateX(-200%); }
+    80% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+
+}
+
+.wrapper img {
+    flex: 1 0 100%; /*grow, not shrink, basis to 100%*/
+    width: 100%;
+    scroll-snap-align: start;
+    object-fit: cover;
+}
+
+
+/* ================= RESULTS PAGE ================= */
+main.split-container {
+    height: 75%;
+    width: auto;
+    margin: 50px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+main.split-container > * {
+    width: 50%;
+    height: 100%;
+}
+
+.job-list {
+    max-height: 95%;
+    overflow-y: auto;
+}
+
+.job-item {
+    padding: 35px;
+    margin-bottom: 10px;
+    background-color: #F7F7F7;
+    border-radius: 8pt;
+}
+
+.job-item:hover {
+    filter: brightness(85%);
+    transition: ease-in-out 300ms;
+}
+
+.job-item > * {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* PAGE NUMBER SECTION */
+
+.page-number {
+    padding: 10px;
+    min-height: 5%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow-x: auto;
+}
+
+.page-number a {
+    margin: 0 auto; /* Auto margin on flex children allows auto centered positioning */
+    box-sizing: border-box;
+    aspect-ratio: 1 / 1;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 8px;
+}
+
+.page-number a:hover {
+    filter: brightness(85%);
+    transition: ease-in-out 300ms;
+}
+
+.not-selected {
+    background-color: #F7F7F7;
+}
+
+.selected {
+    background-color: #90D9E5;
+}
+
+.right {
+    box-sizing: border-box;
+    padding: 35px;
+    margin-bottom: 10px;
+    background-color: #F7F7F7;
+    border-radius: 8pt;
+    overflow-y: auto;
+    -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
+	scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.right > * {
+    margin-top: 0;
+}
+
+.right p {
+    font-size: 0.9em;
+}
+
+
+/* ================= PROFILE ================= */
+.right .profile-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-top > * {
+    margin: 0;
+}
+
+.pfp-container {
+    border: solid #90D9E5 5px;
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+}
+
+.pfp-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.right .center {
+    text-align: center;
+}
+
+.profile-top > h2 {
+    color: #AD8961;
+}
+
+.profile-top > p {
+    font-size: 16pt;
+    margin-bottom: 30px;
+}
+
+div.location > *, div.graduation > * {
+    display: inline;
+}
+
+div.graduation {
+    margin-bottom: 30px;
+}
+
+div.location img, div.graduation img {
+    position: relative;
+    top: 3px;
+}
+
+
+/* ================= EDIT PROFILE ================= */
+.input-container.edit-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.input-container.edit-page > label {
+    width: 100%;
+}
+
+.edit-page img {
+    width: 300px;
+    height: auto;
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer-section {
+    padding-top: 30px;
+    font-size: 10pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-footer > footer {
+    font-size: 10pt;
+    position: relative;
+    margin-left: 5%;
+    margin-top: -5%;
+}

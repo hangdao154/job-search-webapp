@@ -1,0 +1,36 @@
+<%- include("partials/header.ejs") %>
+
+
+<main class="home-main">
+    <form class="input-container" action="/login" method="POST">
+        <h1 class="section-title">Log In</h1>
+        <% if (locals.loginData === false) { %>
+            <p style="color: red">Incorrect username or password. Type again.</p>
+        <% } %>
+        <div>
+            <label for="username">Username:</label><br>
+            <input class="input-field" name="username" type="text" placeholder="Enter username">
+        </div>
+        <div>
+            <label for="password">Password:</label><br>
+            <input class="input-field" name="password" type="text" placeholder="Enter username">
+        </div>
+        <div class="submit-btn">
+            <input class="btn-content" type="submit" value="Login">
+        </div>
+        <a class="submit-btn" href="/signup">Sign up</a>
+    </form>
+
+    <div class="slider-container">
+        <div class="wrapper">
+            <img id="slide-1" src="images/slideshow/1.jpg">
+            <img id="slide-2" src="images/slideshow/2.jpg">
+            <img id="slide-3" src="images/slideshow/3.jpg">
+        </div>
+    </div>
+</main>
+
+
+<section class="home-footer">
+    <%- include("partials/footer.ejs") %>
+</section>

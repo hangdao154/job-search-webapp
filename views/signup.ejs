@@ -1,0 +1,30 @@
+<%- include("partials/header.ejs") %>
+
+
+<main class="home-main">
+    <form class="input-container" action="/signup" method="POST">
+        <h1 class="section-title">Sign up</h1>
+        <% if (locals.message) { %>
+            <p style="color: red"><%= message %></p>
+        <% } %>
+        <label for="username">Username:</label>
+        <input class="input-field" name="username" type="text" placeholder="Enter username">
+        <label for="password">Password:</label>
+        <input class="input-field" name="password" type="text" placeholder="Enter username">
+        <div class="submit-btn">
+            <input class="btn-content" type="submit" value="Sign up">
+        </div>
+    </form>
+
+    <div class="slider-container">
+        <div class="wrapper">
+            <img id="slide-1" src="images/slideshow/1.jpg">
+            <img id="slide-2" src="images/slideshow/2.jpg">
+            <img id="slide-3" src="images/slideshow/3.jpg">
+        </div>
+    </div>
+</main>
+
+<section class="home-footer">
+<%- include("partials/footer.ejs") %>
+</section>

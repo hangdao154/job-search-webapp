@@ -1,0 +1,93 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/search.ejs') %>
+
+<main class="split-container">
+    <% if (locals.jobList && locals.searchInput && locals.searchQuery) { %>
+        <!-- Left-column: Job container + Page No. -->
+        <div class="job-results left">
+
+            <!-- Job list -->
+            <div class="job-list">
+            <% jobList.forEach(job => { %>
+                <!-- Each job item -->
+                <a href="/search?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= searchQuery.pageIndex %>&item=<%= jobList.indexOf(job) %>">
+                <% if (jobList.indexOf(job) == searchQuery.index) { %>
+                        <div class="job-item selected">
+                            <h3><%= job.title %></h3>
+                            <p class="location">Location: <%= job.location.display_name %></p>
+                            <p class="salary">Salary up to: $<%= job.salary_max %></p>
+                        </div>
+                <% } else { %>
+                        <div class="job-item not-selected">
+                            <h3><%= job.title %></h3>
+                            <p class="location">Location: <%= job.location.display_name %></p>
+                            <p class="salary">Salary up to: $<%= job.salary_max %></p>
+                        </div>
+                <% } %>
+                </a>
+            <% }) %>
+            </div>
+
+            <!-- Page number Container -->
+            <% if (locals.jobCount  && locals.jobPerPage) { %>
+            <div class="page-number">
+                <!-- Get total number of pages -->
+                <% const totalPage = Math.ceil(jobCount / jobPerPage); %>
+                <% const pagePerStack = 10 %>
+                <% const totalPageStacks = Math.ceil(totalPage / pagePerStack) %>
+                <% const currentPageStack = Math.ceil(searchQuery.pageIndex / pagePerStack) - 1 %>
+                <% const pageStackStart = ((currentPageStack) * pagePerStack) + 1 %>
+
+                <!-- Prev button -->
+                <% if (currentPageStack > 0) { %>
+                    <a href="/search?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= ((currentPageStack-1)*pagePerStack)+(pagePerStack) %>&item=0">
+                        <img src="images/icons/arrow_left.svg">
+                    </a>
+                <% } %>
+                <!-- Page number -->
+                <% for(let page = pageStackStart; (page <= pageStackStart + 9) && (page <= totalPage); page++) { %>
+                    <% if (page == searchQuery.pageIndex) { %>
+                        <a class="selected" href="/search?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= page %>&item=0"><%= page %></a>
+                    <% } else { %>
+                        <a class="not-selected" href="/search?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= page %>&item=0"><%= page %></a>
+                    <% } %>
+                <% } %>
+                <!-- Next button -->
+                <% if (currentPageStack < totalPageStacks-1) { %>
+                    <a href="/search?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= ((currentPageStack+1)*pagePerStack)+1 %>&item=0">
+                        <img src="images/icons/arrow_right.svg">
+                    </a>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+
+
+        <!-- Right-column: Selected job's Specifics -->
+        <div class="job-view right">
+            <% const selectedJob = jobList[searchQuery.index]; %>
+
+            <p><%= selectedJob.company.display_name %></p>
+            <p><i>Published: <%= selectedJob.created %></i></p>
+            <h1><%= selectedJob.title %></h1>
+            <p class="location">Location: <%= selectedJob.location.display_name %></p>
+            <h4 class="salary"><i>Min Salary: $<%= selectedJob.salary_min %></i></h3>
+            <h4 class="salary"><i>Max Salary: $<%= selectedJob.salary_max %></i></h3>
+            <h3>Description:</h3>
+            <p><%= selectedJob.description %></p>
+            <% if (selectedJob.contract_time) { %>
+                <p>Contract time: <%= selectedJob.contract_time %></p>
+            <% } %>
+
+            <div class="btn-row">
+                <a class="submit-btn" href=<%= selectedJob.redirect_url %> target="_blank" rel="noopener noreferrer" %>>More details</a>
+                <a class="submit-btn" href="/save-job?area=<%= searchInput.area %>&title=<%= searchInput.title.join("%") %>&location=<%= searchInput.location.join("%") %>&page=<%= searchQuery.pageIndex %>&item=<%= searchQuery.index %>">Interested</a>
+            </div>
+        </div>
+    <% } %>
+
+</main>
+
+<section class="footer-section">
+    <%- include('partials/footer.ejs') %>
+</section>

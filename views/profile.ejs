@@ -1,0 +1,87 @@
+<%- include("partials/header.ejs") %>
+<%- include('partials/search.ejs') %>
+
+<% if (locals.message) { %>
+    <p class="profile-message" style="color: green; margin-left: 5%"><%= message %></p>
+<% } %>
+
+<main class="split-container">
+    <% if (locals.user) { %>
+        <!-- Left-column: Interested jobs -->
+        <div class="interests-container">
+            <h2>Your Interests</h2>
+            <% if (user.interests.length > 0) { %>
+                <div class="job-list left">
+                <% user.interests.forEach(job => { %>
+                    <a href="/profile?item=<%= user.interests.indexOf(job) %>">
+                        <% if (user.interests.indexOf(job) == locals.selectedJobID) { %>
+                            <div class="job-item selected">
+                                <h3><%= job.title %></h3>
+                                <p class="location">Location: <%= job.location.display_name %></p>
+                                <p class="salary">Salary up to: $<%= job.salary_max %></p>
+                            </div>
+                        <% } else { %>
+                            <div class="job-item not-selected">
+                                <h3><%= job.title %></h3>
+                                <p class="location">Location: <%= job.location.display_name %></p>
+                                <p class="salary">Salary up to: $<%= job.salary_max %></p>
+                            </div>
+                        <% } %>
+                    </a>
+                <% }) %>
+                </div>
+            <% } else { %>
+                <p>List empty.</p>
+            <% } %>
+        </div>
+
+        <!-- Right-column: Job's specifics or Profile info -->
+        <div class="right">
+        <% if (locals.selectedJobID) { %>
+            <!-- Selected job's specifics Pop-up -->
+            <% const selectedJob = user.interests[selectedJobID]; %>
+
+            <p><%= selectedJob.company.display_name %></p>
+            <p><i>Published: <%= selectedJob.created %></i></p>
+            <h1><%= selectedJob.title %></h1>
+            <p class="location">Location: <%= selectedJob.location.display_name %></p>
+            <h3 class="salary">Min Salary: $<%= selectedJob.salary_min %></h3>
+            <h3 class="salary">Max Salary: $<%= selectedJob.salary_max %></h3>
+            <p><%= selectedJob.description %></p>
+            <p>Contract tinme: <%= selectedJob.contract_time %></p>
+
+            <div class="btn-row">
+                <a class="submit-btn" href=<%= selectedJob.redirect_url %> target="_blank" rel="noopener noreferrer" %>>More details</a>
+                <a class="submit-btn" href="/remove-job?index=<%= selectedJobID %>">Remove</a>
+            </div>
+        
+        <% } else { %>
+            <!-- Profile's info -->
+            <div class="profile-top">
+                <div class="pfp-container center">
+                    <img src="<%= user.profile.pic %>" alt="Profile pic">
+                </div>
+                <h2 class="center"><%= user.profile.name %></h2>
+                <p class="center"><%= user.profile.bio %></p>
+            </div>
+            <hr>
+            <div class="location">
+                <img src="images/icons/location.svg">
+                <p><%= user.profile.location %></p>
+            </div>
+            <div class="graduation">
+                <img src="images/icons/grad.svg">
+                <p><%= user.profile.graduation %></p>
+            </div>
+            <div class="btn-row">
+                <a class="submit-btn" href="/edit-profile">Edit Profile</a>
+                <a class="submit-btn" href="/logout">Log out</a>
+            </div>
+        <% } %>
+        </div>
+    <% } %>
+</main>
+
+<section class="footer-section">
+    <%- include("partials/footer.ejs") %>
+</section>
