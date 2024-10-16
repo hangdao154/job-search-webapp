@@ -540,4 +540,25 @@ div.location img, div.graduation img {
     .job-list a {
         min-width: 100%;
     }
+
+    .job-item {
+        padding: 20px;
+    }
+
+    .home-footer {
+        margin-top: 50px;  
+    }
+
+    .right h2 {
+        font-size: 26px;
+        margin-bottom: 16px;
+    }
+
+    .right h3 {
+        font-size: 22px;
+    }
+
+    .right h4 {
+        font-size: 18px;
+    }
 }

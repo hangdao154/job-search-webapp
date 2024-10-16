@@ -43,10 +43,11 @@
 
             <p><%= selectedJob.company.display_name %></p>
             <p><i>Published: <%= selectedJob.created %></i></p>
-            <h1><%= selectedJob.title %></h1>
+            <h2><%= selectedJob.title %></h2>
             <p class="location">Location: <%= selectedJob.location.display_name %></p>
-            <h3 class="salary">Min Salary: $<%= selectedJob.salary_min %></h3>
-            <h3 class="salary">Max Salary: $<%= selectedJob.salary_max %></h3>
+            <h4 class="salary">Min Salary: $<%= selectedJob.salary_min %></h3>
+            <h4 class="salary">Max Salary: $<%= selectedJob.salary_max %></h3>
+            <h3>Description</h3>
             <p><%= selectedJob.description %></p>
             <p>Contract tinme: <%= selectedJob.contract_time %></p>
 

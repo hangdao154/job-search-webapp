@@ -262,7 +262,7 @@ app.listen(port, () => {
 async function saveData(user) {
     try {
         const users = JSON.parse(await readFile("data.json", "utf8"));
-        if (users.includes(user)) {
+        if (user.id) {
             users[user.id] = user;
         } else {
             user.id = users.length;
