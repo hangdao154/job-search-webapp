@@ -259,8 +259,6 @@ main.split-container > * {
     background-color: #F7F7F7;
     border-radius: 8pt;
     overflow-y: auto;
-    -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
-	scrollbar-width: none; /* Hide scrollbar Firefox */
 }
 
 .right > * {
@@ -437,9 +435,9 @@ div.location img, div.graduation img {
     }
 
     .home-main > .input-container {
-        height: 50%;
         width: 100%;
         margin-top: 60px;
+        flex-wrap: wrap;
     }
 
     main.split-container {
@@ -453,7 +451,7 @@ div.location img, div.graduation img {
         width: 100%;
     }
 
-    .job-results, .interests-container {
+    .job-results {
         max-height: 20%;
         margin-bottom: 20px;
     }
@@ -462,8 +460,30 @@ div.location img, div.graduation img {
         min-height: 80%;
     }
 
+    .interests-container {
+        max-height: 30%;
+        margin-bottom: 20px;
+    }
+
+    .profile {
+        min-height: 70%;
+    }
+
     .job-results .job-list {
         max-height: 90%;
+        display: flex;
+        column-gap: 10px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    .interests-container h2 {
+        margin: 0;
+        min-height: 30%;
+    }
+
+    .interests-container .job-list {
+        max-height: 70%;
         display: flex;
         column-gap: 10px;
         overflow-y: hidden;
@@ -505,15 +525,19 @@ div.location img, div.graduation img {
 
 @media (max-width: 684px) {
     .input-container {
-        width: 100%;
         display: flex;
         flex-direction: column;
+        flex-basis: auto;
         row-gap: 10px;
     }
+}
 
-    .input-container > * {
-        min-width: 100%;
+@media (max-width: 480px) {
+    .home-main .input-container > * {
+        min-width: 80%;
     }
 
-
+    .job-list a {
+        min-width: 100%;
+    }
 }

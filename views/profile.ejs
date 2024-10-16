@@ -36,9 +36,9 @@
         </div>
 
         <!-- Right-column: Job's specifics or Profile info -->
-        <div class="right">
         <% if (locals.selectedJobID) { %>
-            <!-- Selected job's specifics Pop-up -->
+        <!-- Selected job's specifics Pop-up -->
+        <div class="right">
             <% const selectedJob = user.interests[selectedJobID]; %>
 
             <p><%= selectedJob.company.display_name %></p>
@@ -56,7 +56,8 @@
             </div>
         
         <% } else { %>
-            <!-- Profile's info -->
+        <!-- Profile's info -->
+        <div class="right profile">
             <div class="profile-top">
                 <div class="pfp-container center">
                     <img src="<%= user.profile.pic %>" alt="Profile pic">

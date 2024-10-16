@@ -227,6 +227,7 @@ app.get("/save-job", (req, res) => {
         
         // The url param is the index of the job being selected in the temporary list being fetched from each search page
         user.interests.push(temporaryList[selectedIndex]);
+        saveData(user);
         console.log("Added to interest.")
 
         res.redirect(`/search?area=${jobArea}&title=${jobTitle.join("%")}&location=${jobLocation.join("%")}&page=${pageNumber}&item=${selectedIndex}`);
@@ -241,6 +242,7 @@ app.get("/remove-job", (req, res) => {
     } else {
         if (req.query.index) {
             user.interests.splice(req.query.index, 1);
+            saveData(user);
             console.log("Removed successfully.")
         } else {
             console.error("Index not found.");
